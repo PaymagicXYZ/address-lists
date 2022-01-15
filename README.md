@@ -1,32 +1,32 @@
-# @uniswap/token-lists (beta)
+# address-lists (beta)
 
 [![Tests](https://github.com/Uniswap/token-lists/workflows/Tests/badge.svg)](https://github.com/Uniswap/token-lists/actions?query=workflow%3ATests)
 [![npm](https://img.shields.io/npm/v/@uniswap/token-lists)](https://unpkg.com/@uniswap/token-lists@latest/)
 
-This package includes a JSON schema for token lists, and TypeScript utilities for working with token lists.
+This package includes a JSON schema for address lists, and TypeScript utilities for working with address lists. It is inspired by and forked from [Uniswap’s Token Lists](https://tokenlists.org/) and uses some features from the [Chainlist project](https://chainlist.org/).
 
-The JSON schema represents the technical specification for a token list which can be used in a dApp interface, such as the Uniswap Interface.
+## What are address lists?
 
-## What are token lists?
+Address Lists are groups of Ethereum addresses that are shareable across apps, wallets, and networks. For example, address books, lists of bad actors, snapshots of token/NFT holders, Sybil tested users, verified smart contracts, or any other grouping.
 
-Uniswap Token Lists is a specification for lists of token metadata (e.g. address, decimals, ...) that can be used by any dApp interfaces that needs one or more lists of tokens.
+Anyone can create, validate, or maintain an address list, as long as they follow the specification.
 
-Anyone can create and maintain a token list, as long as they follow the specification.
-
-Specifically an instance of a token list is a [JSON](https://www.json.org/json-en.html) blob that contains a list of 
-[ERC20](https://github.com/ethereum/eips/issues/20) token metadata for use in dApp user interfaces.
-Token list JSON must validate against the [JSON schema](https://json-schema.org/) in order to be used in the Uniswap Interface.
-Tokens on token lists, and token lists themselves, are tagged so that users can easily find tokens.
+Specifically an instance of an address list is a [JSON](https://www.json.org/json-en.html) blob that contains a list of address metadata for use in wallets and dapp user interfaces.
+Token list JSON must validate against the [JSON schema](https://json-schema.org/) in order to be used.
+Addresses on address lists, and address lists themselves, are tagged so that users can easily find them.
 
 ## JSON Schema $id
 
-The JSON schema ID is [https://uniswap.org/tokenlist.schema.json](https://uniswap.org/tokenlist.schema.json)
+The JSON schema ID is [/src/addresslist.schema.json](https://raw.githubusercontent.com/PaymagicXYZ/address-lists/main/src/addresslist.schema.json)
 
-## Validating token lists
+## Validating address lists
 
-This package does not include code for token list validation. You can easily do this by including a library such as 
+This package does not include code for address list validation. You can easily do this by including a library such as 
 [ajv](https://ajv.js.org/) to perform the validation against the JSON schema. The schema is exported from the package
 for ease of use.
+
+## In Progress
+
 
 ```typescript
 import Ajv from 'ajv';
