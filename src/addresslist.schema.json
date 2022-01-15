@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://uniswap.org/tokenlist.schema.json",
-  "title": "Uniswap Token List",
-  "description": "Schema for lists of tokens compatible with the Uniswap Interface",
+  "title": "Address List",
+  "description": "Schema for lists of addresses",
   "definitions": {
     "Version": {
       "type": "object",
@@ -18,7 +18,7 @@
       "properties": {
         "major": {
           "type": "integer",
-          "description": "The major version of the list. Must be incremented when tokens are removed from the list or token addresses are changed.",
+          "description": "The major version of the list. Must be incremented when addresses are removed from the list.",
           "minimum": 0,
           "examples": [
             1,
@@ -27,7 +27,7 @@
         },
         "minor": {
           "type": "integer",
-          "description": "The minor version of the list. Must be incremented when tokens are added to the list.",
+          "description": "The minor version of the list. Must be incremented when addresses are added to the list.",
           "minimum": 0,
           "examples": [
             0,
@@ -57,13 +57,13 @@
       "maxLength": 10,
       "pattern": "^[\\w]+$",
       "examples": [
-        "compound",
-        "stablecoin"
+        "whitelist",
+        "whale"
       ]
     },
     "ExtensionIdentifier": {
       "type": "string",
-      "description": "The name of a token extension property",
+      "description": "The name of an address extension property",
       "minLength": 1,
       "maxLength": 40,
       "pattern": "^[\\w]+$",
@@ -75,7 +75,7 @@
     },
     "ExtensionMap": {
       "type": "object",
-      "description": "An object containing any arbitrary or vendor-specific token metadata",
+      "description": "An object containing any arbitrary or vendor-specific address metadata",
       "maxProperties": 10,
       "propertyNames": {
         "$ref": "#/definitions/ExtensionIdentifier"
@@ -168,7 +168,7 @@
     },
     "TagDefinition": {
       "type": "object",
-      "description": "Definition of a tag that can be associated with a token via its identifier",
+      "description": "Definition of a tag that can be associated with an address via its identifier",
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -192,8 +192,8 @@
       ],
       "examples": [
         {
-          "name": "Stablecoin",
-          "description": "A token with value pegged to another asset"
+          "name": "Custody Service",
+          "description": "An address that's part of a custody service"
         }
       ]
     },
@@ -279,6 +279,67 @@
         "name",
         "symbol"
       ]
+    },
+    "AddressInfo": {
+      "type": "object",
+      "description": "Metadata for a single address in an address list",
+      "additionalProperties": false,
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "The checksummed address on the specified chain ID or an externally owned account",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "examples": [
+            "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+          ]
+        },
+        "chainId": {
+          "type": "integer",
+          "description": "The chain ID of the Ethereum network where this address is deployed. 0 is an externally owned account.",
+          "minimum": 0,
+          "examples": [
+            1,
+            42
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the address",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
+          "examples": [
+            "USD Coin"
+          ]
+        },
+        "logoURI": {
+          "type": "string",
+          "description": "A URI to the address logo asset; if not set, interface will attempt to find a logo based on the address; suggest SVG or PNG of size 64x64",
+          "format": "uri",
+          "examples": [
+            "ipfs://QmXfzKRvjZz3u5JRgC4v5mGVbm9ahrUiB4DgzHBsnWbTMM"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "description": "An array of tag identifiers associated with the address; tags are defined at the list level",
+          "items": {
+            "$ref": "#/definitions/TagIdentifier"
+          },
+          "maxItems": 10,
+          "examples": [
+            "whitelist",
+            "custodian"
+          ]
+        },
+        "extensions": {
+          "$ref": "#/definitions/ExtensionMap"
+        }
+      },
+      "required": [
+        "chainId",
+        "address"
+      ]
     }
   },
   "type": "object",
@@ -286,12 +347,22 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the token list",
+      "description": "The name of the address list",
       "minLength": 1,
-      "maxLength": 20,
+      "maxLength": 40,
       "pattern": "^[\\w ]+$",
       "examples": [
-        "My Token List"
+        "Bad Actor List"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the address list",
+      "minLength": 1,
+      "maxLength": 288,
+      "pattern": "^[\\w ]+$",
+      "examples": [
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
       ]
     },
     "timestamp": {
@@ -302,11 +373,11 @@
     "version": {
       "$ref": "#/definitions/Version"
     },
-    "tokens": {
+    "addresses": {
       "type": "array",
-      "description": "The list of tokens included in the list",
+      "description": "The list of addresses included in the list",
       "items": {
-        "$ref": "#/definitions/TokenInfo"
+        "$ref": "#/definitions/AddressInfo"
       },
       "minItems": 1,
       "maxItems": 10000
@@ -321,9 +392,9 @@
         "maxLength": 20,
         "pattern": "^[\\w ]+$",
         "examples": [
-          "compound",
-          "lending",
-          "personal tokens"
+          "defi",
+          "bayc",
+          "whitelist"
         ]
       },
       "maxItems": 20,
@@ -342,15 +413,15 @@
       "examples": [
         {
           "stablecoin": {
-            "name": "Stablecoin",
-            "description": "A token with value pegged to another asset"
+            "name": "Custodian",
+            "description": "An address associated with a custodian service"
           }
         }
       ]
     },
     "logoURI": {
       "type": "string",
-      "description": "A URI for the logo of the token list; prefer SVG or PNG of size 256x256",
+      "description": "A URI for the logo of the address list; prefer SVG or PNG of size 256x256",
       "format": "uri",
       "examples": [
         "ipfs://QmXfzKRvjZz3u5JRgC4v5mGVbm9ahrUiB4DgzHBsnWbTMM"
@@ -361,6 +432,6 @@
     "name",
     "timestamp",
     "version",
-    "tokens"
+    "addresses",
   ]
 }
