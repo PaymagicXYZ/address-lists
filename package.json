@@ -1,12 +1,12 @@
 {
-  "name": "@uniswap/token-lists",
+  "name": "@paymagicxyz/address-lists",
   "author": {
-    "name": "Uniswap Labs",
-    "email": "contact@uniswap.org",
+    "name": "Paymagic",
+    "email": "address-lists@viabull.io",
     "url": "https://uniswap.org"
   },
-  "description": "📚 The Token Lists specification",
-  "version": "1.0.0-beta.27",
+  "description": "📇 The Address Lists specification",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -18,7 +18,7 @@
     "node": ">=10"
   },
   "repository": {
-    "url": "https://github.com/Uniswap/token-lists",
+    "url": "https://github.com/PaymagicXYZ/address-lists",
     "type": "git"
   },
   "scripts": {
