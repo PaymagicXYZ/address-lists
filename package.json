@@ -51,6 +51,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@uniswap/token-lists": "^1.0.0-beta.27"
+    "@uniswap/token-lists": "^1.0.0-beta.27",
+    "fs": "0.0.1-security"
   }
 }
