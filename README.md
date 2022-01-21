@@ -5,7 +5,7 @@
 
 This package includes a JSON schema for address lists, and TypeScript utilities for working with address lists. It is inspired by and forked from [Uniswap’s Token Lists](https://tokenlists.org/) and uses some features from the [Chainlist project](https://chainlist.org/).
 
-## What are address lists?
+## What are Address lists?
 
 Address Lists are groups of Ethereum addresses that are shareable across apps, wallets, and networks. For example, address books, lists of bad actors, snapshots of token/NFT holders, Sybil tested users, verified smart contracts, or any other grouping.
 

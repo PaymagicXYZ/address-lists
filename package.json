@@ -43,11 +43,14 @@
   },
   "module": "dist/token-lists.esm.js",
   "devDependencies": {
-    "ajv": "^8.6.1",
-    "ajv-formats": "^2.1.0",
+    "ajv": "^8.9.0",
+    "ajv-formats": "^2.1.1",
     "husky": "^4.2.5",
     "tsdx": "^0.14.1",
     "tslib": "^2.0.0",
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@uniswap/token-lists": "^1.0.0-beta.27"
   }
 }
