@@ -54,8 +54,8 @@
       "type": "string",
       "description": "The unique identifier of a tag",
       "minLength": 1,
-      "maxLength": 10,
-      "pattern": "^[\\w]+$",
+      "maxLength": 40,
+      "pattern": "^[\\w-]+$",
       "examples": [
         "whitelist",
         "whale"
@@ -174,9 +174,8 @@
         "name": {
           "type": "string",
           "description": "The name of the tag",
-          "pattern": "^[ \\w]+$",
           "minLength": 1,
-          "maxLength": 20
+          "maxLength": 100
         },
         "description": {
           "type": "string",
@@ -223,7 +222,7 @@
           "type": "string",
           "description": "The name of the address",
           "minLength": 1,
-          "maxLength": 40,
+          "maxLength": 100,
           "pattern": "^[ \\w.'+\\-%/À-ÖØ-öø-ÿ:&\\[\\]\\(\\)]+$",
           "examples": [
             "USD Coin"
@@ -243,7 +242,7 @@
           "items": {
             "$ref": "#/definitions/TagIdentifier"
           },
-          "maxItems": 10,
+          "maxItems": 40,
           "examples": [
             "whitelist",
             "custodian"
