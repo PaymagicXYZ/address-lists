@@ -89,9 +89,12 @@ const abis = require('./abis.json');
   'dcsc_91'
   ]
 
-  // 1) Get Twitter Users -> Twitter APIs
-  // 2) Get Address for User -> Scraping / hacked API
-  // 3) Get Address for User -> Scraping / hacked API
+  // 1) Get Twitter Users => Twitter APIs
+  // 2) Get NFT pfp Info for User => Scraping / hacked API
+  // 3) Get owner address for NFT pfp => Moralis API
+  // 4) Generate AddressList => script
+  // 5) Disperse Tokens to AddressList => Paymagic API
+
 
   const allUserNftData = []
   const userNftData = []
