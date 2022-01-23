@@ -8,7 +8,7 @@ const ajv = new Ajv({ allErrors: true });
 addFormats(ajv)
 const validate = ajv.compile(addressListSchema);
 
-(async () => {
+module.exports = (async () => {
   const addressInputCsv = await fs.readFileSync(
     __dirname + `/../test/csv/input.csv`,
      'utf8'
