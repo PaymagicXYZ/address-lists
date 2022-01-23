@@ -6,88 +6,92 @@ const abis = require('./abis.json');
 
   const usernames = [
   'corbpage',
-// 'iiiisabelleee',
-// 'stefankimm',
-// '0xdallascat',
-// 'Logicb0x',
-// 'brandon_galang',
-// 'Tunsky107',
-// 'patrickadgarvey',
-// 'GenuineJack',
-// 'mateo_ventures',
-// 'nemedalist',
-// 'lagunacarta',
-// 'crfamilypunks',
-// 'headlesstale',
-// 'imthatcarlos',
-// 'Melpomenexyz',
-// 'jacobclr',
-// 'meritverse',
-// 'Blockchain_Ron',
-// 'sahtemhem',
-// 'MarkYusko',
-// 'subscribddd',
-// 'arney',
-// 'nounpunk6',
-// 'Lukebolger4',
-// 'gousup',
-// 'weedable',
-// 'GJFlannery19',
-// 'aj7may',
-// 'aseoconnor',
-// 'dawn0fcom',
-// 'josh_p_dot',
-// 'GESorica',
-// '0xJoshuaSL',
-// 'ninzucchi',
-// 'Church_0x',
-// 'maggielove_',
-// '__mikareyes',
-// '0xRubens',
-// 'MFL_tw',
-// 'manasilvora',
-// 'Dealexander12',
-// 'stxsmith',
-// 'ZHRmissLMM',
-// 'SalvatOfficial',
-// 'starboisdao',
-// 'mondesai',
-// 'boofer_eth',
-// 'nft_wagmi_gm',
-// 'sidgulledge',
-// 'gvallario',
-// 'AmitMukherjee',
-// 'designheretic',
-// 'szhxng',
-// 'im_prayag',
-// 'j_knoppers',
-// 'DerekSilva',
-// 'bennetgrill',
-// 'youfoundanisha',
-// 'andreasbigger',
-// 'CHE5US',
-// 'FujiPhilNFT',
-// 'ramirez198906',
-// 'wongisrite',
-// 'AndreaCoravos',
-// '0xDonatello',
-// '0xMagn8',
-// 'Kritikos',
-// 'claudalama',
-'markamedia',
-'PubKevin',
-'MARQ528',
-'hawkesque',
-'Omichrom',
-'nfttodubai',
-'adamalamode',
-'kur_esh_eee',
-'jaesmail',
-'maskzilla_eth',
-'dylan_hattem',
-'b3nnn21',
-'dcsc_91'
+  'iiiisabelleee',
+  'stefankimm',
+  '0xdallascat',
+  'Logicb0x',
+  'brandon_galang',
+  'Tunsky107',
+  'patrickadgarvey',
+  'GenuineJack',
+  'mateo_ventures',
+  'nemedalist',
+  'lagunacarta',
+  'crfamilypunks',
+  'headlesstale',
+  'imthatcarlos',
+  'Melpomenexyz',
+  'jacobclr',
+  'meritverse',
+  'Blockchain_Ron',
+  'sahtemhem',
+  'MarkYusko',
+  'subscribddd',
+  'arney',
+  'nounpunk6',
+  'Lukebolger4',
+  'gousup',
+  'weedable',
+  'GJFlannery19',
+  'aj7may',
+  'aseoconnor',
+  'dawn0fcom',
+  'josh_p_dot',
+  'GESorica',
+  '0xJoshuaSL',
+  'ninzucchi',
+  'Church_0x',
+  'maggielove_',
+  '__mikareyes',
+  '0xRubens',
+  'MFL_tw',
+  'manasilvora',
+  'Dealexander12',
+  'stxsmith',
+  'ZHRmissLMM',
+  'SalvatOfficial',
+  'starboisdao',
+  'mondesai',
+  'boofer_eth',
+  'nft_wagmi_gm',
+  'sidgulledge',
+  'gvallario',
+  'AmitMukherjee',
+  'designheretic',
+  'szhxng',
+  'im_prayag',
+  'j_knoppers',
+  'DerekSilva',
+  'bennetgrill',
+  'youfoundanisha',
+  'andreasbigger',
+  'CHE5US',
+  'FujiPhilNFT',
+  'ramirez198906',
+  'wongisrite',
+  'AndreaCoravos',
+  '0xDonatello',
+  '0xMagn8',
+  'Kritikos',
+  'claudalama',
+  'markamedia',
+  'PubKevin',
+  'MARQ528',
+  'hawkesque',
+  'Omichrom',
+  'nfttodubai',
+  'adamalamode',
+  'kur_esh_eee',
+  'jaesmail',
+  'maskzilla_eth',
+  'dylan_hattem',
+  'b3nnn21',
+  'dcsc_91'
   ]
+
+  // 1) Get Twitter Users -> Twitter APIs
+  // 2) Get Address for User -> Scraping / hacked API
+  // 3) Get Address for User -> Scraping / hacked API
 
   const allUserNftData = []
   const userNftData = []
@@ -129,7 +133,7 @@ const abis = require('./abis.json');
     }
   }
 
-  console.log(allUserNftData)
+  // console.log(allUserNftData)
   console.log(userNftData.join('\n'))
 
 
@@ -186,37 +190,42 @@ async function getMoralisNFTData(chain='eth', tokenAddress, tokenId) {
     method: 'GET',
     headers: {
       'accept': 'application/json',
-      'X-API-Key': 'S3Vxjq5UAnPrnNpksxCiKk74sgwl81p7jeBoSyOLZW9rOffOuFg8bO1lHNg1aPMq'
+      'X-API-Key': ''
     }
   }
 
 
   const response = await fetch(
-    `https://deep-index.moralis.io/api/v2/nft/${tokenAddress}/${tokenId}/owners?chain=${chain}&format=decimal`
+    `https://deep-index.moralis.io/api/v2/nft/${tokenAddress}/${tokenId}/owners?chain=${chain}&format=decimal`,
     options
+  )
 
   const res = await response.json()
-
-  console.log(res)
 
   return res
 }
 
 async function getTokenOwner(type, tokenAddress, tokenId) {
+  console.log(tokenAddress, tokenId)
   const infuraProvider = getInfuraProvider()
   let address = ''
-  if(type === 'ERC721') {
+
+  if(tokenAddress === '0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb') {
+    // CryptoPunks doesn't use ERC721 so need Moralis
+    // Query Moralis API
+    const res = await getMoralisNFTData('eth', tokenAddress, tokenId)
+    address = res.result[0]['owner_of']
+  } else if(type === 'ERC721') {
     const contract = new ethers.Contract(
         tokenAddress,
         abis[type],
         infuraProvider
     );
     address = await contract.ownerOf(tokenId)
-    console.log(address)
   } else if(type === 'ERC1155') {
     // Query Moralis API
     const res = await getMoralisNFTData('eth', tokenAddress, tokenId)
-    // address = await contract.ownerOf(tokenId)
+    address = res.result[0]['owner_of']
   }
 
   return address
@@ -225,7 +234,7 @@ async function getTokenOwner(type, tokenAddress, tokenId) {
 // Returns the ethers infuraProvider for the given chain
 function getInfuraProvider() {
   try {
-    return new ethers.providers.InfuraProvider('homestead', 'f3c58d461e4e4bc7860f2a562ca71f10')
+    return new ethers.providers.InfuraProvider('homestead', '')
   } catch (err) {
     console.error(err);
     return null;
