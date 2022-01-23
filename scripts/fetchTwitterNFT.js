@@ -92,7 +92,7 @@ const abis = require('./abis.json');
   const allUserNftData = []
   const userNftData = []
   for (let i = 0; i < usernames.length; i++) {
-    allUserNftData[i] = await getNFTDataForUser(usernames[i])
+    allUserNftData[i] = await getNFTDataForTwitterUser(usernames[i])
 
     // console.log(allUserNftData[i].nft_avatar_metadata)
     // console.log(allUserNftData[i].nft_avatar_metadata.metadata)
@@ -149,7 +149,7 @@ const abis = require('./abis.json');
 
 })();
 
-async function getNFTDataForUser(username) {
+async function getNFTDataForTwitterUser(username) {
   const response = await fetch(
     `https://twitter.com/i/api/graphql/2WV2fm-gpUaL85bIxx14vQ/userNftContainer_Query?variables=%7B%22screenName%22%3A%22${username}%22%7D`,
     {
@@ -181,6 +181,27 @@ async function getNFTDataForUser(username) {
   return res.data.user.result
 }
 
+async function getMoralisNFTData(chain='eth', tokenAddress, tokenId) {
+  const options = {
+    method: 'GET',
+    headers: {
+      'accept': 'application/json',
+      'X-API-Key': 'S3Vxjq5UAnPrnNpksxCiKk74sgwl81p7jeBoSyOLZW9rOffOuFg8bO1lHNg1aPMq'
+    }
+  }
+
+
+  const response = await fetch(
+    `https://deep-index.moralis.io/api/v2/nft/${tokenAddress}/${tokenId}/owners?chain=${chain}&format=decimal`
+    options
+
+  const res = await response.json()
+
+  console.log(res)
+
+  return res
+}
+
 async function getTokenOwner(type, tokenAddress, tokenId) {
   const infuraProvider = getInfuraProvider()
   let address = ''
@@ -193,13 +214,9 @@ async function getTokenOwner(type, tokenAddress, tokenId) {
     address = await contract.ownerOf(tokenId)
     console.log(address)
   } else if(type === 'ERC1155') {
-    const contract = new ethers.Contract(
-        tokenAddress,
-        abis[type],
-        infuraProvider
-    );
+    // Query Moralis API
+    const res = await getMoralisNFTData('eth', tokenAddress, tokenId)
     // address = await contract.ownerOf(tokenId)
-
   }
 
   return address
