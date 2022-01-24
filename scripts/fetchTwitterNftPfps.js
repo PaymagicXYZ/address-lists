@@ -1,12 +1,17 @@
+const fs = require('fs');
 const fetch = require('node-fetch');
 const ethers = require('ethers');
 const abis = require('./abis.json');
 const _ = require('lodash');
 
 const generateAddressList = require('./generateAddressList');
+const fetchTwitterUsernames = require('./fetchTwitterUsernames');
 
 
-(async () => {
+fetchTwitterNftPfps("Retweets", "1484530460051058692")
+module.exports = fetchTwitterNftPfps
+
+async function fetchTwitterNftPfps(action='', data) {
   // 1) Get Twitter Users => Twitter APIs
   // 2) Get NFT pfp Info for User => Scraping / hacked API
   // 3) Get owner address for NFT pfp => Moralis API
@@ -16,116 +21,37 @@ const generateAddressList = require('./generateAddressList');
   // ----
 
   // 1) Get Twitter Users => Twitter APIs
-  const usernames = [
-    'iiiisabelleee',
-    'stefankimm',
-    '0xdallascat',
-    'Logicb0x',
-    'brandon_galang',
-    'Tunsky107',
-    'patrickadgarvey',
-    'GenuineJack',
-    'mateo_ventures',
-    'nemedalist',
-    'lagunacarta',
-    'crfamilypunks',
-    'headlesstale',
-    'imthatcarlos',
-    'Melpomenexyz',
-    'jacobclr',
-    'meritverse',
-    'Blockchain_Ron',
-    'sahtemhem',
-    'MarkYusko',
-    'subscribddd',
-    'arney',
-    'nounpunk6',
-    'Lukebolger4',
-    'gousup',
-    'weedable',
-    'GJFlannery19',
-    'aj7may',
-    'aseoconnor',
-    'dawn0fcom',
-    'josh_p_dot',
-    'GESorica',
-    '0xJoshuaSL',
-    'ninzucchi',
-    'Church_0x',
-    'maggielove_',
-    '__mikareyes',
-    '0xRubens',
-    'MFL_tw',
-    'manasilvora',
-    'Dealexander12',
-    'stxsmith',
-    'ZHRmissLMM',
-    'SalvatOfficial',
-    'starboisdao',
-    'mondesai',
-    'boofer_eth',
-    'nft_wagmi_gm',
-    'sidgulledge',
-    'gvallario',
-    'AmitMukherjee',
-    'designheretic',
-    'szhxng',
-    'im_prayag',
-    'j_knoppers',
-    'DerekSilva',
-    'bennetgrill',
-    'youfoundanisha',
-    'andreasbigger',
-    'CHE5US',
-    'FujiPhilNFT',
-    'ramirez198906',
-    'wongisrite',
-    'AndreaCoravos',
-    '0xDonatello',
-    '0xMagn8',
-    'Kritikos',
-    'claudalama',
-    'markamedia',
-    'PubKevin',
-    'MARQ528',
-    'hawkesque',
-    'Omichrom',
-    'nfttodubai',
-    'adamalamode',
-    'kur_esh_eee',
-    'jaesmail',
-    'maskzilla_eth',
-    'dylan_hattem',
-    'b3nnn21',
-    'dcsc_91',
-  ]
+  const usernames = await fetchTwitterUsernames('Retweets', data)
   console.log(`${usernames.length} Twitter Users found`)
 
 
   // 2) Get NFT pfp Info for User => Scraping / hacked API
   // 3) Get owner address for NFT pfp => Moralis API
   const allValidUsers = await getNFTDataForTwitterUsers(usernames)
-  console.log(`${allValidUsers.length} Twitter Users with verified NFTs`)
+  console.log(`${allValidUsers.length} Twitter Users with NFT PFPs`)
 
 
   // 4) Generate AddressList => script
-  const tweetId = '1234'
   const addressList = await generateAddressList(
-    `Twitter RTs for ${tweetId}`,
+    `Twitter RTs for ${data}`,
     "NFT pfps that retweeted tweet",
     _.map(allValidUsers, 'owner'),
-    _.map(allValidUsers, 'username')
+    _.map(allValidUsers, 'username'),
+    [ "twitter-nft-pfps" ]
   )
+  if(!_.isNull(addressList)) {
+    const filename = `${addressList.name.replace(/[^a-zA-Z0-9]/g, '-')}.json`
+    fs.writeFileSync(__dirname + `/../lists/${filename}`, JSON.stringify(addressList), { flag: 'w' });
+    // console.log(addressList)
+    // console.log(_.map(addressList.addresses,'address'))
 
+    console.log('-----')
 
-  // console.log(allValidUsers)
-  console.log(addressList)
+    // 5) Disperse Tokens to AddressList => Paymagic API
+    // TBD
 
-
-  // 5) Disperse Tokens to AddressList => Paymagic API
-  // TBD
-
-})();
+  }
+};
 
 
 
@@ -163,7 +89,7 @@ async function getNFTDataForTwitterUsers(usernames=[]) {
       })
     } else {
       // User doesn't have a verified NFT pfp
-      console.log(`No verified NFT pfp found: ${usernames[i]}`)
+      console.log(`No NFT PFP: ${usernames[i]}`)
     }
   }
 
@@ -171,13 +97,14 @@ async function getNFTDataForTwitterUsers(usernames=[]) {
 }
 
 async function getNFTDataForTwitterUser(username) {
+  console.log(username)
   const response = await fetch(
     `https://twitter.com/i/api/graphql/2WV2fm-gpUaL85bIxx14vQ/userNftContainer_Query?variables=%7B%22screenName%22%3A%22${username}%22%7D`,
     {
     "headers": {
       "accept": "*/*",
       "accept-language": "en-US,en;q=0.9",
-      "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
+      "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN_NFT}`,
       "content-type": "application/json",
       "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
       "sec-ch-ua-mobile": "?0",
@@ -199,7 +126,9 @@ async function getNFTDataForTwitterUser(username) {
 
   const res = await response.json()
 
-  return res.data.user.result
+  const userInfo = _.get(res, 'data.user.result', {has_nft_avatar: false})
+
+  return userInfo
 }
 
 async function getMoralisNFTData(chain='eth', tokenAddress, tokenId) {
@@ -207,10 +136,9 @@ async function getMoralisNFTData(chain='eth', tokenAddress, tokenId) {
     method: 'GET',
     headers: {
       'accept': 'application/json',
-      'X-API-Key': ''
+      'X-API-Key': process.env.MORALIS_ID
     }
   }
-
 
   const response = await fetch(
     `https://deep-index.moralis.io/api/v2/nft/${tokenAddress}/${tokenId}/owners?chain=${chain}&format=decimal`,
@@ -250,7 +178,7 @@ async function getTokenOwner(type, tokenAddress, tokenId) {
 // Returns the ethers infuraProvider for the given chain
 function getInfuraProvider() {
   try {
-    return new ethers.providers.InfuraProvider('homestead', '')
+    return new ethers.providers.InfuraProvider('homestead', process.env.INFURA_ID)
   } catch (err) {
     console.error(err);
     return null;
