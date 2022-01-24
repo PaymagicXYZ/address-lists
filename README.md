@@ -1,4 +1,4 @@
-# address-lists (beta)
+# Address Lists (alpha)
 
 This repo includes a JSON schema for address lists, and TypeScript utilities for working with address lists. It is inspired by and forked from [Uniswap’s Token Lists](https://tokenlists.org/) and uses some features from the [Chainlist project](https://chainlist.org/).
 
