@@ -1,9 +1,6 @@
 # address-lists (beta)
 
-[![Tests](https://github.com/Uniswap/token-lists/workflows/Tests/badge.svg)](https://github.com/Uniswap/token-lists/actions?query=workflow%3ATests)
-[![npm](https://img.shields.io/npm/v/@uniswap/token-lists)](https://unpkg.com/@uniswap/token-lists@latest/)
-
-This package includes a JSON schema for address lists, and TypeScript utilities for working with address lists. It is inspired by and forked from [Uniswap’s Token Lists](https://tokenlists.org/) and uses some features from the [Chainlist project](https://chainlist.org/).
+This repo includes a JSON schema for address lists, and TypeScript utilities for working with address lists. It is inspired by and forked from [Uniswap’s Token Lists](https://tokenlists.org/) and uses some features from the [Chainlist project](https://chainlist.org/).
 
 ## What are Address lists?
 
