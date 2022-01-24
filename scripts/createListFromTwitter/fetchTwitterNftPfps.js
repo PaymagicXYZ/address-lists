@@ -40,11 +40,12 @@ async function fetchTwitterNftPfps(action='', data) {
   )
   if(!_.isNull(addressList)) {
     const filename = `${addressList.name.replace(/[^a-zA-Z0-9]/g, '-')}.json`
-    fs.writeFileSync(__dirname + `./lists/${filename}`, JSON.stringify(addressList), { flag: 'w' });
+    fs.writeFileSync(__dirname + `/lists/${filename}`, JSON.stringify(addressList), { flag: 'w' });
     // console.log(addressList)
     // console.log(_.map(addressList.addresses,'address'))
 
     console.log('-----')
+    console.log(_.map(addressList.addresses,'address'))
 
     // 5) Disperse Tokens to AddressList => Paymagic API
     // TBD
