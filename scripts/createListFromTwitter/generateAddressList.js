@@ -4,7 +4,7 @@ const _ = require('lodash');
 const csvtojson = require('csvtojson');
 const Ajv = require('ajv');
 const addFormats = require("ajv-formats")
-const addressListSchema = require('../src/addresslist.schema.json');
+const addressListSchema = require('../../src/addresslist.schema.json');
 // const addressInputCsv = require('../test/csv/input.csv');
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv)

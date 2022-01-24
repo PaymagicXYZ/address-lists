@@ -25,6 +25,10 @@ This package does not include code for address list validation. You can easily d
 [ajv](https://ajv.js.org/) to perform the validation against the JSON schema. The schema is exported from the package
 for ease of use.
 
+## Scripts
+Get NFT PFPs for RTs - `npm run fetchTwitterNftPfps -- Retweets 1484530460051058692`
+
+
 ## In Progress
 
 

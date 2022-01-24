@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fs = require('fs');
 const fetch = require('node-fetch');
 const ethers = require('ethers');
@@ -7,9 +8,7 @@ const _ = require('lodash');
 const generateAddressList = require('./generateAddressList');
 const fetchTwitterUsernames = require('./fetchTwitterUsernames');
 
-
-fetchTwitterNftPfps("Retweets", "1484530460051058692")
-module.exports = fetchTwitterNftPfps
+fetchTwitterNftPfps(process.argv[2], process.argv[3])
 
 async function fetchTwitterNftPfps(action='', data) {
   // 1) Get Twitter Users => Twitter APIs
@@ -41,7 +40,7 @@ async function fetchTwitterNftPfps(action='', data) {
   )
   if(!_.isNull(addressList)) {
     const filename = `${addressList.name.replace(/[^a-zA-Z0-9]/g, '-')}.json`
-    fs.writeFileSync(__dirname + `/../lists/${filename}`, JSON.stringify(addressList), { flag: 'w' });
+    fs.writeFileSync(__dirname + `./lists/${filename}`, JSON.stringify(addressList), { flag: 'w' });
     // console.log(addressList)
     // console.log(_.map(addressList.addresses,'address'))
 
@@ -61,10 +60,6 @@ async function getNFTDataForTwitterUsers(usernames=[]) {
   let userNftData = []
   for (let i = 0; i < usernames.length; i++) {
     allUserNftData[i] = await getNFTDataForTwitterUser(usernames[i])
-
-    // console.log(allUserNftData[i].nft_avatar_metadata)
-    // console.log(allUserNftData[i].nft_avatar_metadata.metadata)
-    // console.log(allUserNftData[i].nft_avatar_metadata.metadata.collection)
 
     if(allUserNftData[i].has_nft_avatar) {
       const type = allUserNftData[i].nft_avatar_metadata.smart_contract.__typename
@@ -97,7 +92,6 @@ async function getNFTDataForTwitterUsers(usernames=[]) {
 }
 
 async function getNFTDataForTwitterUser(username) {
-  console.log(username)
   const response = await fetch(
     `https://twitter.com/i/api/graphql/2WV2fm-gpUaL85bIxx14vQ/userNftContainer_Query?variables=%7B%22screenName%22%3A%22${username}%22%7D`,
     {

@@ -2,8 +2,7 @@
   "name": "@paymagicxyz/address-lists",
   "author": {
     "name": "Paymagic",
-    "email": "address-lists@viabull.io",
-    "url": "https://uniswap.org"
+    "email": "info@viabull.io"
   },
   "description": "📇 The Address Lists specification",
   "version": "1.0.0",
@@ -22,6 +21,7 @@
     "type": "git"
   },
   "scripts": {
+    "fetchTwitterNftPfps": "node ./scripts/createListFromTwitter/fetchTwitterNftPfps",
     "start": "tsdx watch",
     "build": "tsdx build",
     "postbuild": "cp src/tokenlist.schema.json dist/tokenlist.schema.json",
@@ -41,10 +41,11 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/token-lists.esm.js",
+  "module": "dist/address-lists.esm.js",
   "devDependencies": {
     "ajv": "^8.9.0",
     "ajv-formats": "^2.1.1",
+    "dotenv": "^14.2.0",
     "husky": "^4.2.5",
     "tsdx": "^0.14.1",
     "tslib": "^2.0.0",
