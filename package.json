@@ -22,6 +22,7 @@
   },
   "scripts": {
     "fetchTwitterNftPfps": "node ./scripts/createListFromTwitter/fetchTwitterNftPfps",
+    "convertCSVToDisperse": "node ./scripts/createListFromCSV/convertCSVToDisperse",
     "start": "tsdx watch",
     "build": "tsdx build",
     "postbuild": "cp src/tokenlist.schema.json dist/tokenlist.schema.json",

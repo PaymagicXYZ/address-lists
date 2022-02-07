@@ -27,6 +27,7 @@ for ease of use.
 
 ## Scripts
 Get NFT PFPs for RTs - `npm run fetchTwitterNftPfps -- Retweets 1484530460051058692`
+Convert CSV to Disperse - `npm run convertCSVToDisperse -- input/aave-grant-2-6-22.csv`
 
 
 ## In Progress
