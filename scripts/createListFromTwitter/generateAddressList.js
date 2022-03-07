@@ -1,7 +1,6 @@
 const fs = require('fs');
 const ethers = require('ethers');
 const _ = require('lodash');
-const csvtojson = require('csvtojson');
 const Ajv = require('ajv');
 const addFormats = require("ajv-formats")
 const addressListSchema = require('../../src/addresslist.schema.json');
