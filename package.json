@@ -23,6 +23,7 @@
   "scripts": {
     "fetchTwitterNftPfps": "node ./scripts/createListFromTwitter/fetchTwitterNftPfps",
     "convertCSVToDisperse": "node ./scripts/createListFromCSV/convertCSVToDisperse",
+    "createListFromAirtable": "node ./scripts/createListFromCSV/createListFromAirtable",
     "start": "tsdx watch",
     "build": "tsdx build",
     "postbuild": "cp src/tokenlist.schema.json dist/tokenlist.schema.json",
@@ -30,7 +31,6 @@
     "lint": "tsdx lint src test",
     "prepublishOnly": "yarn test && yarn build"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@uniswap/token-lists": "^1.0.0-beta.27",
+    "airtable": "^0.11.2",
     "axios": "^0.25.0",
     "csvtojson": "^2.0.10",
     "ethers": "^5.5.3",

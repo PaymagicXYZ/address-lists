@@ -4,30 +4,15 @@ const fetch = require('node-fetch');
 const ethers = require('ethers');
 const _ = require('lodash');
 
-// const generateAddressList = require('./generateAddressList');
-// const fetchTwitterUsernames = require('./fetchTwitterUsernames');
+const fetchAirtablePayments = require('./fetchAirtablePayments');
 
-convertCSVToDisperse(process.argv[2])
+createListFromAirtable()
 
-async function convertCSVToDisperse(path='') {
-  const csvPath = `${__dirname}/${path}`
+async function createListFromAirtable(action='', data) {
+	const records = await fetchAirtablePayments()
+	console.log(records)
 
-  // Parse CSV
-  const converter = csvtojson({
-    delimiter: [","],
-    noheader: false,
-    trim: true,
-  });
-  const parsed = await converter.fromFile(csvPath);
-
-  // Get AAVE Token Price
-
-  // Convert to AAVE Tokens
-  // 
-
-  console.log(parsed)
-
-  const aaveTokenAddr = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9"
+	const aaveTokenAddr = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9"
   const aavePriceFeedAddr = "0x547a514d5e3769680Ce22B2361c10Ea13619e8a9"
   const roundData = await getTokenPrice(aavePriceFeedAddr)
 
@@ -36,15 +21,16 @@ async function convertCSVToDisperse(path='') {
   console.log('-------------')
   console.log('-------------')
 
-  for (let i = 0; i < parsed.length; i++) {
-    let usdAmt = _.replace(_.replace(parsed[i]['Amount'],'$',''),',','')
+  for (let i = 0; i < records.length; i++) {
+    let usdAmt = records[i].get('Amount')
+    let ethAddress = getChecksummedAddress(records[i].get('ETH Address'))
+
     // console.log(usdAmt)
     // console.log(roundData.answer.div(100000000))
     let tokenAmt = _.round(usdAmt / roundData.answer.div(100000000).toNumber(),4)
     // console.log(tokenAmt)
-    console.log(`erc20,${aaveTokenAddr},${parsed[i]['ETH Address']},${tokenAmt}`)
+    console.log(`erc20,${aaveTokenAddr},${ethAddress},${tokenAmt}`)
   }
-
 
 }
 
@@ -67,3 +53,13 @@ function getInfuraProvider() {
     return null;
   }
 }
+
+function getChecksummedAddress(address) {
+  if (!ethers.utils.isAddress(address)) return false;
+  try {
+    return ethers.utils.getAddress(address);
+  } catch {
+    return false;
+  }
+};
+
